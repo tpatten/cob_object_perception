@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!--Static transform for camera position to camera_rgb_optical_frame -->
+  <node pkg="tf" type="static_transform_publisher" name="camera_broadcaster" args="-0.045 0.000 0.000 1.571 -1.571 0.000 camera_position camera_link 100" />
+  
+  <!-- RVIZ -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find cob_fiducials)/ros/launch/rviz_config.rviz" />
+  
+  <!-- Fiducials -->
+  <include file="$(find cob_fiducials)/ros/launch/fiducials.launch" />
+    
+  <!-- Fiducial mapping -->
+  <node pkg="cob_fiducials" type="fiducial_mapping" name="fiducial_mapping" output="screen">
+    <remap from="/image_raw" to="/camera/rgb/image_raw"/>
+  </node>
+  
+</launch>

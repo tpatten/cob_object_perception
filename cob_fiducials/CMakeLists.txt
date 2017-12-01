@@ -32,6 +32,7 @@ find_package(Boost REQUIRED COMPONENTS filesystem)
 catkin_package(
 INCLUDE_DIRS
   common/include
+  ros/include
 LIBRARIES
   ${PROJECT_NAME}
 CATKIN_DEPENDS
@@ -49,6 +50,7 @@ DEPENDS
 ###########
 include_directories(
   common/include
+  ros/include
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
   ${TinyXML_INCLUDE_DIRS}
@@ -95,6 +97,20 @@ target_link_libraries(fiducials
 #  ${PCL_LIBRARIES}
 )
 set_target_properties(fiducials PROPERTIES COMPILE_FLAGS "-D__LINUX__ -DBOOST_FILESYSTEM_VERSION=2")
+
+add_executable(fiducial_mapping
+  ros/src/fiducial_mapping.cpp
+)
+add_dependencies(fiducial_mapping ${catkin_EXPORTED_TARGETS})
+target_link_libraries(fiducial_mapping
+  ${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBS}
+  ${TinyXML_LIBRARIES}
+  ${Boost_LIBRARIES}
+#  ${PCL_LIBRARIES}
+)
+set_target_properties(fiducial_mapping PROPERTIES COMPILE_FLAGS "-D__LINUX__ -DBOOST_FILESYSTEM_VERSION=2")
 
 #############
 ## Install ##
